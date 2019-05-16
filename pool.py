@@ -1,4 +1,4 @@
-from actor import Entrance, Treasury, Container, Key, Artifact
+from actor import Entrance, Treasury, Container, Key, Artifact, Arc
 
 class Pool(dict):
   """ Contains ingame objects. """
@@ -8,3 +8,15 @@ class Pool(dict):
     self['container'] = Container()
     self['key'] = Key()
     self['artifact'] = Artifact()
+    self['arc'] = Arc()
+
+    for name in self:
+      self[name].load()
+
+    self.contents = {
+      'treasury': {'container': {'artifact': {}}, 'arc': {}},
+      'entrance': {'key': {}, 'arc': {}}
+    }
+
+  def get_rooms(self):
+    return self.contents

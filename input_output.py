@@ -1,18 +1,31 @@
 class IO(object):
   """ Decides which objects should react to a command. """
-  def fill(self):
-    self.contents = {
-      'treasury': ('container', 'artifact'),
-      'entrance': ('key',)
-    }
-    self.current_room = 'entrance'
+  def fill(self): pass
 
   def process(self, pool):
     command = raw_input("> ")
 
-    pool[self.current_room].obey(command)
-    print pool[self.current_room].get('output', '')
+    locations = pool.get_rooms()
+    current = []
 
-    for name in self.contents[self.current_room]:
-      pool[name].obey(command)
-      print pool[name].get('output', '')
+    for location in locations:
+      self._find_current(current, location, pool[location])
+
+    for location in current:
+      self._walk_through(location, pool, command)
+
+  def _find_current(self, current, location, actor):
+    if actor.get('labyrinth', False):
+      current.append(location)
+
+  def _walk_through(self, location, pool, command):
+    output = pool[location].obey(command)
+    self._print(output)
+
+    for name in pool.get_rooms()[location]:
+      output = pool[name].obey(command)
+      self._print(output)
+
+  def _print(self, output):
+    if output:
+      print output

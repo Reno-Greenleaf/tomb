@@ -1,7 +1,10 @@
 class Entrance(dict):
   """ Room to start from. """
+  def __init__(self):
+    self['labyrinth'] = {}
+
   def load(self):
-    self['labyrinth'] = True
+    self['labyrinth']['current'] = True
     self['io'] = "You're in the entrance."
 
   def obey(self, command):
@@ -9,16 +12,19 @@ class Entrance(dict):
       return self['io']
 
   def enter(self):
-    self['labyrinth'] = True
+    self['labyrinth']['current'] = True
 
   def leave(self):
-    self['labyrinth'] = False
+    self['labyrinth']['current'] = False
 
 
 class Treasury(dict):
   """ Room to visit. """
+  def __init__(self):
+    self['labyrinth'] = {}
+
   def load(self):
-    self['labyrinth'] = False
+    self['labyrinth']['current'] = False
     self['io'] = "You're in the treasury."
 
   def obey(self, command):
@@ -26,29 +32,42 @@ class Treasury(dict):
       return self['io']
 
   def enter(self):
-    self['labyrinth'] = True
+    self['labyrinth']['current'] = True
 
   def leave(self):
-    self['labyrinth'] = False
+    self['labyrinth']['current'] = False
 
 
 class Arc(dict):
   """ Connects treasury and entrance. """
+  def __init__(self):
+    self['labyrinth'] = {}
+
   def load(self):
-    self['labyrinth'] = False
+    self['labyrinth']['current'] = False
+    self['labyrinth']['right'] = False
     self['io'] = "An arc leads to another room."
 
   def obey(self, command):
     if command == 'go through arc':
-      self['labyrinth'] = True
+      self['labyrinth']['current'] = True
     elif command == 'look around':
-      return self['io']
+      return self._choose_description()
+
+  def _choose_description(self):
+    if self['labyrinth']['right']:
+      return "The arc leads to entrance."
+    else:
+      return "The arc leads to treasury."
 
   def enter(self):
-    self['labyrinth'] = True
+    self['labyrinth']['current'] = True
 
   def leave(self):
-    self['labyrinth'] = False
+    self['labyrinth']['current'] = False
+
+  def entered(self, right=True):
+    self['labyrinth']['right'] = right
 
 
 class Container(dict):

@@ -15,7 +15,7 @@ class IO(object):
       self._walk_through(location, pool, command)
 
   def _find_current(self, current, location, actor):
-    if actor.get('labyrinth', False):
+    if actor['labyrinth'].get('current', False):
       current.append(location)
 
   def _walk_through(self, location, pool, command):

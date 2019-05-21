@@ -1,4 +1,4 @@
-class Labyrinth(dict):
+class Labyrinth(object):
   """ Handles movement from one location to another. """
   def fill(self):
     self.passes = {

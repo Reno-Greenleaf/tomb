@@ -13,10 +13,10 @@ class Pool(dict):
     for name in self:
       self[name].load()
 
-    self.contents = {
-      'treasury': {'container': {'artifact': {}}, 'arc': {}},
-      'entrance': {'key': {}, 'arc': {}}
+    self.space = {
+      'treasury': set(['container', 'artifact', 'arc']),
+      'entrance': set(['key', 'arc'])
     }
 
   def get_rooms(self):
-    return self.contents
+    return self.space

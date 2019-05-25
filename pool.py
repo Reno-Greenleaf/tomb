@@ -1,4 +1,4 @@
-from actor import Actor, Entrance, Treasury, Container, Key, Artifact, Arc
+from actor import Actor, Location, Passage, Switch
 from data import data
 
 class Pool(dict):
@@ -19,22 +19,13 @@ class Pool(dict):
     actor = Actor()
     actor.load(properties)
 
-    if name == 'entrance':
-      actor = Entrance(actor)
+    if 'labyrinth' in properties:
+      actor = Location(actor)
 
-    if name == 'treasury':
-      actor = Treasury(actor)
+    if 'labyrinth' in properties and 'right' in properties['labyrinth']:
+      actor = Passage(actor)
 
-    if name == 'container':
-      actor = Container(actor)
-
-    if name == 'key':
-      actor = Key(actor)
-
-    if name == 'artifact':
-      actor = Artifact(actor)
-
-    if name == 'arc':
-      actor = Arc(actor)
+    if 'access' in properties:
+      actor = Switch(actor)
 
     self[name] = actor

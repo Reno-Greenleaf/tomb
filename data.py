@@ -12,7 +12,8 @@ data = {
     'io': {
       'right_description': "The arc leads to entrance.",
       'left_description': "The arc leads to treasury.",
-      'usage': "You're going through the arc."
+      'usage': "You're going through the arc.",
+      'use_command': "go through arc"
     }
   },
   'key': {
@@ -20,7 +21,8 @@ data = {
     'io': {
       'description': "A key lies on the floor.",
       'usage': "You've taken the key.",
-      'used_usage': "It's taken already."
+      'used_usage': "It's taken already.",
+      'use_command': "take key"
     }
   },
   'container': {
@@ -30,16 +32,19 @@ data = {
       'used_description': "Opened container stands here.",
       'usage': "The key fits. You've opened the container.",
       'used_usage': "It's open already.",
-      'locked_usage': "The container is locked."
+      'locked_usage': "The container is locked.",
+      'use_command': "open container"
     }
   },
   'artifact': {
     'access': {'used': False, 'locked': True},
     'io': {
       'description': "An antient artifact lies in the container.",
+      'locked_description': "",
       'usage': "You've taken the artifact.",
       'used_usage': "It's taken already.",
-      'locked_usage': "What artifact?"
+      'locked_usage': "What artifact?",
+      'use_command': "take artifact"
     }
   }
 }

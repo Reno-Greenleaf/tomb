@@ -46,131 +46,70 @@ class Behaviour(object):
     self.actor.unlock()
 
 
-class Entrance(Behaviour):
-  """ Room to start from. """
+class Location(Behaviour):
+  """ This is where other actors and main character are placed. """
   def obey(self, command):
     if command == 'look around':
       return self['io']['description']
+    else:
+      return self.actor.obey(command)
 
   def enter(self):
     self['labyrinth']['current'] = True
+    self.actor.enter()
 
   def leave(self):
     self['labyrinth']['current'] = False
+    self.actor.leave()
 
 
-class Treasury(Behaviour):
-  """ Room to visit. """
+class Passage(Behaviour):
+  """ Connects two locations. """
   def obey(self, command):
-    if command == 'look around':
-      return self['io']['description']
-
-  def enter(self):
-    self['labyrinth']['current'] = True
-
-  def leave(self):
-    self['labyrinth']['current'] = False
-
-
-class Arc(Behaviour):
-  """ Connects treasury and entrance. """
-  def obey(self, command):
-    if command == 'go through arc':
+    if command == self['io']['use_command']:
       self['labyrinth']['current'] = True
       return self['io']['usage']
     elif command == 'look around':
-      return self._choose_description()
+      return self._describe()
+    else:
+      return self.actor.obey(command)
 
-  def _choose_description(self):
+  def _describe(self):
     if self['labyrinth']['right']:
       return self['io']['right_description']
     else:
       return self['io']['left_description']
 
-  def enter(self):
-    self['labyrinth']['current'] = True
-
-  def leave(self):
-    self['labyrinth']['current'] = False
-
   def entered(self, right=True):
     self['labyrinth']['right'] = right
+    self.actor.entered(right)
 
 
-class Container(Behaviour):
-  """ Holds the artifact. """
+class Switch(Behaviour):
+  """ Can provide access to other actors. """
   def obey(self, command):
     if command == 'look around':
       return self._describe()
-    elif command == 'open container':
+    elif command == self['io']['use_command']:
       return self._use()
 
   def unlock(self):
     self['access']['locked'] = False
+    self.actor.unlock()
 
   def _describe(self):
     if self['access']['used']:
-      return self['io']['used_description']
-    else:
-      return self['io']['description']
-
-  def _use(self):
-    if self['access']['used']:
-      return self['io']['used_usage']
+      return self['io'].get('used_description', '')
     elif self['access']['locked']:
-      return self['io']['locked_usage']
-    else:
-      self['access']['used'] = True
-      return self['io']['usage']
-
-
-class Key(Behaviour):
-  """ Opens container. """
-  def obey(self, command):
-    if command == 'look around':
-      return self._describe()
-    elif command == 'take key':
-      return self._use()
-
-  def unlock(self):
-    self['access']['locked'] = False
-
-  def _use(self):
-    if self['access']['used']:
-      return self['io']['used_usage']
-    else:
-      self['access']['used'] = True
-      return self['io']['usage']
-
-  def _describe(self):
-    if self['access']['used']:
-      return ''
-    else:
-      return self['io']['description']
-
-
-class Artifact(Behaviour):
-  """ Final goal. """
-  def obey(self, command):
-    if command == 'look around':
-      return self._describe()
-    elif command == 'take artifact':
-      return self._use()
-
-  def unlock(self):
-    self['access']['locked'] = False
-
-  def _describe(self):
-    if self['access']['used'] or self['access']['locked']:
-      return ''
+      return self['io'].get('locked_description', self['io']['description'])
     else:
       return self['io']['description']
 
   def _use(self):
     if self['access']['used']:
-      return self['io']['used_usage']
+      return self['io'].get('used_usage', '')
     elif self['access']['locked']:
-      return self['io']['locked_usage']
+      return self['io'].get('locked_usage', '')
     else:
       self['access']['used'] = True
       return self['io']['usage']

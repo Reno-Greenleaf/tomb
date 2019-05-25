@@ -1,16 +1,13 @@
 from actor import Actor, Location, Passage, Switch
-from data import data
+from data import actors, space
 
 class Pool(dict):
   """ Contains ingame objects. """
   def fill(self):
-    for name, properties in data.items():
+    for name, properties in actors.data.items():
       self._build(properties, name)
 
-    self.space = {
-      'treasury': set(['container', 'artifact', 'arc']),
-      'entrance': set(['key', 'arc'])
-    }
+    self.space = space.data
 
   def get_rooms(self):
     return self.space

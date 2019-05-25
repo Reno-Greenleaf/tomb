@@ -1,10 +1,9 @@
+from data import access
+
 class Access(object):
   """ Used actor may make available other actors. """
   def fill(self):
-    self.off = {
-      'key': set(['container']),
-      'container': set(['artifact'])
-    }
+    self.off = access.data
 
   def process(self, pool):
     for name in self.off.keys():

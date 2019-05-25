@@ -1,9 +1,9 @@
+from data import labyrinth
+
 class Labyrinth(object):
   """ Handles movement from one location to another. """
   def fill(self):
-    self.passes = {
-      'arc': ('treasury', 'entrance')
-    }
+    self.passes = labyrinth.data
 
   def process(self, pool):
     for passage, locations in self.passes.items():

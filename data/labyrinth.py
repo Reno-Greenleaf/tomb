@@ -1,0 +1,3 @@
+data = {
+  'arc': ('treasury', 'entrance')
+}

@@ -1,13 +1,17 @@
 from actor import Actor, Location, Passage, Switch
-from data import actors, space
+from json import load
 
 class Pool(dict):
   """ Contains ingame objects. """
   def fill(self):
-    for name, properties in actors.data.items():
+    with open('data/actors.json', 'r') as data:
+      actors = load(data)
+
+    for name, properties in actors.items():
       self._build(properties, name)
 
-    self.space = space.data
+    with open('data/space.json', 'r') as data:
+      self.space = load(data)
 
   def get_rooms(self):
     return self.space

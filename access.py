@@ -1,9 +1,10 @@
-from data import access
+from json import load
 
 class Access(object):
   """ Used actor may make available other actors. """
   def fill(self):
-    self.off = access.data
+    with open('data/access.json', 'r') as data:
+      self.off = load(data)
 
   def process(self, pool):
     for name in self.off.keys():

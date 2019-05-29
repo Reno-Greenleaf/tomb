@@ -1,3 +1,0 @@
-data = {
-  'arc': ('treasury', 'entrance')
-}

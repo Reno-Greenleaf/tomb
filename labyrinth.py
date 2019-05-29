@@ -1,9 +1,10 @@
-from data import labyrinth
+from json import load
 
 class Labyrinth(object):
   """ Handles movement from one location to another. """
   def fill(self):
-    self.passes = labyrinth.data
+    with open('data/labyrinth.json', 'r') as data:
+      self.passes = load(data)
 
   def process(self, pool):
     for passage, locations in self.passes.items():

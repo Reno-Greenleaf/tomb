@@ -1,0 +1,50 @@
+{
+  "entrance": {
+    "labyrinth": {"current": true},
+    "io": {"description": "You're in the entrance. The search starts in the room. The air is heavy."}
+  },
+  "treasury": {
+    "labyrinth": {"current": false},
+    "io": {"description": "You're in the treasury. Engravings cover the walls."}
+  },
+  "arc": {
+    "labyrinth": {"current": false, "right": false},
+    "io": {
+      "right_description": "The arc leads back to entrance.",
+      "left_description": "Large decorated arc leads to another room, which seems to be a treasury.",
+      "usage": "You're walking through the arc.",
+      "use_command": "go through arc"
+    }
+  },
+  "key": {
+    "access": {"used": false, "locked": false},
+    "io": {
+      "description": "A key lies on the floor.",
+      "usage": "You've taken the key.",
+      "used_usage": "It's taken already.",
+      "use_command": "take key"
+    }
+  },
+  "container": {
+    "access": {"locked": true, "used": false},
+    "io": {
+      "description": "A metal container stands in the center. It's big, heavy and solid. Its top is tightly closed.",
+      "used_description": "Opened container stands here.",
+      "usage": "The key fits. You've opened the container. An antient artifact is revealed. Its shining lightens the room.",
+      "used_usage": "It's open already.",
+      "locked_usage": "The container is locked.",
+      "use_command": "open container"
+    }
+  },
+  "artifact": {
+    "access": {"used": false, "locked": true},
+    "io": {
+      "description": "The antient artifact lies in the container.",
+      "locked_description": "",
+      "usage": "You've taken the artifact.",
+      "used_usage": "It's taken already.",
+      "locked_usage": "What artifact?",
+      "use_command": "take artifact"
+    }
+  }
+}

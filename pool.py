@@ -20,6 +20,10 @@ class Pool(dict):
     actor = Actor()
     actor.load(properties)
 
+    if 'io' not in properties:
+      self[name] = actor
+      return
+
     if 'labyrinth' in properties:
       actor = Location(actor)
 

@@ -4,8 +4,10 @@ class Actor(dict):
     for key, value in data.items():
       self[key] = value
 
-  def obey(self, command):
-    return ''
+  def obey(self, command): pass
+
+  def render(self):
+    return self['io'].pop('output')
 
   def enter(self): pass
 
@@ -27,11 +29,17 @@ class Behaviour(object):
   def __setitem__(self, key, value):
     self.actor[key] = value
 
+  def get(self, key, default):
+    return self.actor.get(key, default)
+
   def load(self, data):
     self.actor.load(data)
 
   def obey(self, command):
-    return self.actor.obey(command)
+    self.actor.obey(command)
+
+  def render(self):
+    return self.actor.render()
 
   def enter(self):
     self.actor.enter()
@@ -50,9 +58,9 @@ class Location(Behaviour):
   """ This is where other actors and main character are placed. """
   def obey(self, command):
     if command == 'look around':
-      return self['io']['description']
+      self['io']['output'] = self['io']['description']
     else:
-      return self.actor.obey(command)
+      self.actor.obey(command)
 
   def enter(self):
     self['labyrinth']['current'] = True
@@ -68,11 +76,11 @@ class Passage(Behaviour):
   def obey(self, command):
     if command == self['io']['use_command']:
       self['labyrinth']['current'] = True
-      return self['io']['usage']
+      self['io']['output'] = self['io']['usage']
     elif command == 'look around':
-      return self._describe()
+      self['io']['output'] = self._describe()
     else:
-      return self.actor.obey(command)
+      self.actor.obey(command)
 
   def _describe(self):
     if self['labyrinth']['right']:
@@ -89,9 +97,11 @@ class Switch(Behaviour):
   """ Can provide access to other actors. """
   def obey(self, command):
     if command == 'look around':
-      return self._describe()
+      self['io']['output'] = self._describe()
     elif command == self['io']['use_command']:
-      return self._use()
+      self['io']['output'] = self._use()
+    else:
+      self.actor.obey(command)
 
   def unlock(self):
     self['access']['locked'] = False

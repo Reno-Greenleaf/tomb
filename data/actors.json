@@ -1,11 +1,15 @@
 {
   "entrance": {
     "labyrinth": {"current": true},
-    "io": {"description": "You're in the entrance. The search starts in the room. The air is heavy."}
+    "io": {
+      "description": "You're in the entrance. The search starts in the room. The air is heavy."
+    }
   },
   "treasury": {
     "labyrinth": {"current": false},
-    "io": {"description": "You're in the treasury. Engravings cover the walls."}
+    "io": {
+      "description": "You're in the treasury. Engravings cover the walls."
+    }
   },
   "arc": {
     "labyrinth": {"current": false, "right": false},

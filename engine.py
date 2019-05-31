@@ -17,5 +17,5 @@ access.fill()
 
 while True:
   labyrinth.process(pool)
-  io.process(pool)
   access.process(pool)
+  io.process(pool)

@@ -3,6 +3,9 @@ class IO(object):
   def fill(self): pass
 
   def process(self, pool):
+    for actor in pool.itervalues():
+      self._print_pending(actor)
+
     command = raw_input("> ")
 
     locations = pool.get_rooms()
@@ -14,28 +17,29 @@ class IO(object):
     for location in current:
       self._walk_through(pool, location, command)
 
+  def _print_pending(self, actor):
+    if 'output' in actor.get('io', {}):
+      self._print(actor.render())
+
   def _find_current(self, current, location, actor):
     if actor['labyrinth'].get('current', False):
       current.append(location)
 
   def _walk_through(self, pool, location, command):
     if command == 'look around':
-      output = pool[location].obey(command)
-      self._print(output)
-      self._print_content(pool, location)
+      pool[location].obey(command)
+      self._command_content(pool, location)
     else:
       addressed = command.split()[-1]
-      self._print_addressed(pool, addressed, location, command)
+      self._command_addressed(pool, addressed, location, command)
 
-  def _print_content(self, pool, location):
+  def _command_content(self, pool, location):
     for name in pool.get_rooms()[location]:
-      output = pool[name].obey('look around')
-      self._print(output)
+      pool[name].obey('look around')
 
-  def _print_addressed(self, pool, addressed, location, command):
+  def _command_addressed(self, pool, addressed, location, command):
     if addressed in pool.get_rooms()[location]:
-      output = pool[addressed].obey(command)
-      self._print(output)
+      pool[addressed].obey(command)
 
   def _print(self, output):
     if output:

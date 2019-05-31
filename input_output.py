@@ -3,16 +3,19 @@ class IO(object):
   def fill(self): pass
 
   def process(self, pool):
-    for actor in pool.itervalues():
-      self._print_pending(actor)
-
-    command = raw_input("> ")
-
     locations = pool.get_rooms()
     current = []
 
     for location in locations:
-      self._find_current(current, location, pool[location])
+      self._find_current(current, pool[location], location)
+
+    for name in current:
+      self._print_pending(pool[name])
+
+    for actor in pool.itervalues():
+      self._print_pending(actor)
+
+    command = raw_input("> ")
 
     for location in current:
       self._walk_through(pool, location, command)
@@ -21,7 +24,7 @@ class IO(object):
     if 'output' in actor.get('io', {}):
       self._print(actor.render())
 
-  def _find_current(self, current, location, actor):
+  def _find_current(self, current, actor, location):
     if actor['labyrinth'].get('current', False):
       current.append(location)
 

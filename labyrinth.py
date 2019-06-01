@@ -2,36 +2,45 @@ from json import load
 
 class Labyrinth(object):
   """ Handles movement from one location to another. """
+  def __init__(self):
+    self.passage = ''
+    self.destination = ''
+
   def fill(self):
     with open('data/labyrinth.json', 'r') as data:
       self.passes = load(data)
 
   def process(self, pool):
-    for passage, locations in self.passes.items():
-      actor = pool[passage]
-      self._handle_passage(actor, locations, pool)
+    for passage in self.passes:
+      self._get_current_passage(pool, passage)
 
-  def _handle_passage(self, actor, locations, pool):
-    if actor['labyrinth']['current']:
-      self._pass(pool, locations, actor)
-      
-  def _pass(self, pool, locations, actor):
-    actor.leave()
-    left, right = locations
+    if self.passage == '':
+      return
+
+    pool[self.passage].leave()
+    left, right = self.passes[self.passage]
 
     if pool[left]['labyrinth']['current']:
-      self._notify_passes(pool, pool.get_rooms()[left], False)
+      self.destination = right
       pool[left].leave()
-      pool[right].enter()
-    elif pool[right]['labyrinth']['current']:
-      self._notify_passes(pool, pool.get_rooms()[right], True)
+    else:
+      self.destination = left
       pool[right].leave()
-      pool[left].enter()
 
-  def _notify_passes(self, pool, content, right):
-    for name in content:
-      self._notify_pass(pool, name, right)
+    pool[self.destination].enter()
 
-  def _notify_pass(self, pool, name, right):
+    for name in pool.get_rooms()[self.destination]:
+      self._notify_passage(pool, name)
+
+    self.passage = ''
+
+  def _get_current_passage(self, pool, passage):
+    if pool[passage]['labyrinth']['current']:
+      self.passage = passage
+
+  def _notify_passage(self, pool, name):
     if name in self.passes:
-      passage = pool[name].entered(right)
+      pool[name].entered(self._is_right(name))
+
+  def _is_right(self, passage):
+    return self.passes[passage][1] == self.destination

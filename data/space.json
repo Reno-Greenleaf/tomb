@@ -1,4 +1,5 @@
 {
   "treasury": ["container", "artifact", "arc"],
-  "entrance": ["key", "arc"]
+  "entrance": ["key", "arc", "stairs"],
+  "shrine": ["stairs"]
 }

@@ -1,3 +1,4 @@
 {
-  "arc": ["treasury", "entrance"]
+  "arc": ["treasury", "entrance"],
+  "stairs": ["shrine", "entrance"]
 }

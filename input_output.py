@@ -29,20 +29,10 @@ class IO(object):
       current.append(location)
 
   def _walk_through(self, pool, location, command):
-    if command == 'look around':
-      pool[location].obey(command)
-      self._command_content(pool, location)
-    else:
-      addressed = command.split()[-1]
-      self._command_addressed(pool, addressed, location, command)
+    pool[location].obey(command)
 
-  def _command_content(self, pool, location):
     for name in pool.get_rooms()[location]:
-      pool[name].obey('look around')
-
-  def _command_addressed(self, pool, addressed, location, command):
-    if addressed in pool.get_rooms()[location]:
-      pool[addressed].obey(command)
+      pool[name].obey(command)
 
   def _print(self, output):
     if output:

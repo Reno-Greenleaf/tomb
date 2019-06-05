@@ -23,8 +23,10 @@
     "io": {
       "right_description": "Stairs lead down into darkness.",
       "left_description": "Stairs lead back up to entrance.",
-      "usage": "You're going downstairs.",
-      "use_command": "go down stairs"
+      "left_usage": "You're going upstairs.",
+      "right_usage": "You're going downstairs",
+      "left_use_command": "go downstairs",
+      "right_use_command": "go upstairs"
     }
   },
   "arc": {
@@ -32,8 +34,8 @@
     "io": {
       "right_description": "Large decorated arc leads to another room, which seems to be a treasury.",
       "left_description": "The arc leads back to entrance.",
-      "usage": "You're walking through the arc.",
-      "use_command": "go through arc"
+      "left_usage": "You're walking through the arc.",
+      "left_use_command": "go through arc"
     }
   },
   "key": {

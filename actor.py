@@ -74,9 +74,11 @@ class Location(Behaviour):
 class Passage(Behaviour):
   """ Connects two locations. """
   def obey(self, command):
-    if command == self['io']['use_command']:
-      self['labyrinth']['current'] = True
-      self['io']['output'] = self['io']['usage']
+    left = command == self['io']['left_use_command'] and self['labyrinth']['right']
+    right = command == self['io'].get('right_use_command', self['io']['left_use_command']) and not self['labyrinth']['right']
+
+    if left or right:
+      self._use()
     elif command == 'look around':
       self['io']['output'] = self._describe()
     else:
@@ -87,6 +89,14 @@ class Passage(Behaviour):
       return self['io']['right_description']
     else:
       return self['io']['left_description']
+
+  def _use(self):
+    if self['labyrinth']['right']:
+      self['io']['output'] = self['io'].get('right_usage', self['io']['left_usage'])
+    else:
+      self['io']['output'] = self['io']['left_usage']
+
+    self['labyrinth']['current'] = True
 
   def entered(self, right=True):
     self['labyrinth']['right'] = right

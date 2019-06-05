@@ -40,7 +40,4 @@ class Labyrinth(object):
 
   def _notify_passage(self, pool, name):
     if name in self.passes:
-      pool[name].entered(self._is_right(name))
-
-  def _is_right(self, passage):
-    return self.passes[passage][1] == self.destination
+      pool[name].entered(self.passes[name][1] == self.destination)

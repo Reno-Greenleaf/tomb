@@ -4,18 +4,29 @@ class Actor(dict):
     for key, value in data.items():
       self[key] = value
 
-  def obey(self, command): pass
+  def obey(self, command):
+    """ Receive input from input/output. """
+    pass
 
   def render(self):
+    """ Discover current state of the actor. """
     return self['io'].pop('output')
 
-  def enter(self): pass
+  def enter(self):
+    """ Inform the actor that it was entered. """
+    pass
 
-  def leave(self): pass
+  def leave(self):
+    """ Informs the actor that it was left. """
+    pass
 
-  def entered(self, right=True): pass
+  def entered(self, right=True):
+    """ Tell from which side of the actor main character entered. """
+    pass
 
-  def unlock(self): pass
+  def unlock(self):
+    """ Inform the actor that related actor is successfully used. """
+    pass
 
 
 class Behaviour(object):

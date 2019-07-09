@@ -85,8 +85,8 @@ class Location(Behaviour):
 class Passage(Behaviour):
   """ Connects two locations. """
   def obey(self, command):
-    left = command == self['io']['left_use_command'] and self['labyrinth']['right']
-    right = command == self['io'].get('right_use_command', self['io']['left_use_command']) and not self['labyrinth']['right']
+    left = command == self['io']['left_use_command'] and not self['labyrinth']['right']
+    right = command == self['io'].get('right_use_command', self['io']['left_use_command']) and self['labyrinth']['right']
 
     if left or right:
       self._use()

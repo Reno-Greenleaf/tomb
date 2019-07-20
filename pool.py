@@ -1,4 +1,4 @@
-from actor import Actor, Location, Passage, Switch
+from actor import Actor, Location, Passage, Switch, Ghost
 from json import load
 
 class Pool(dict):
@@ -30,7 +30,9 @@ class Pool(dict):
     if 'labyrinth' in properties and 'right' in properties['labyrinth']:
       actor = Passage(actor)
 
-    if 'access' in properties:
+    if 'access' in properties and 'used' in properties['access']:
       actor = Switch(actor)
+    elif 'access' in properties:
+      actor = Ghost(actor)
 
     self[name] = actor

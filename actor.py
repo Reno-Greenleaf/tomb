@@ -1,5 +1,5 @@
 class Actor(dict):
-  """ Available when there's no other behavior. """
+  """ Available when there's no other behaviour. """
   def load(self, data):
     for key, value in data.items():
       self[key] = value
@@ -144,3 +144,23 @@ class Switch(Behaviour):
     else:
       self['access']['used'] = True
       return self['io']['usage']
+
+
+class Ghost(Behaviour):
+  """ Used whenever it is unlocked. """
+  def obey(self, command):
+    if command == 'look around':
+      self['io']['output'] = self._describe()
+    else:
+      self.actor.obey(command)
+
+  def unlock(self):
+    self['access']['used'] = True
+    self['io']['output'] = self['io']['usage']
+    self.actor.unlock()
+
+  def _describe(self):
+    if self['access']['locked']:
+      return self['io'].get('locked_description', self['io']['description'])
+    else:
+      return self['io']['description']

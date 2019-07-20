@@ -11,7 +11,7 @@ class Access(object):
       self._propagate(pool, name)
 
   def _propagate(self, pool, name):
-    if pool[name]['access']['used']:
+    if pool[name]['access'].get('used', False):
       self._handle_others(pool, name)
 
   def _handle_others(self, pool, name):
